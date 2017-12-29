@@ -75,27 +75,32 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter a number!", Toast.LENGTH_SHORT).show()
             } else {
                 // convert the string to an integer
-                var numberInt = numberString.toInt()
+                try {
+                    var numberInt = numberString.toLong()
 
-                if (isPrime(numberInt)) {
-                    // this number is prime!
-                    resultTextView.animateText(numberInt.toString() + " is prime")
-                } else {
-                    resultTextView.animateText(numberInt.toString() + " is not prime")
+                    if (isPrime(numberInt)) {
+                        // this number is prime!
+                        resultTextView.animateText(numberInt.toString() + " is prime")
+                    } else {
+                        resultTextView.animateText(numberInt.toString() + " is not prime")
+                    }
+                    entryEditText.text.clear()
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Too large. Please enter a smaller number.", Toast.LENGTH_LONG).show()
                 }
-                entryEditText.text.clear()
+
             }
         }
     }
 
     /** Check if a given number is prime */
-    fun isPrime(number: Int): Boolean {
+    fun isPrime(number: Long): Boolean {
         // find the maximum factor we should divide by to check for primeness
-        var stopFactor : Int = Math.sqrt(number.toDouble()).toInt()
+        var stopFactor : Long = Math.sqrt(number.toDouble()).toLong()
 
         // check each potential factor
         for (potentialFactor in 2..stopFactor) {
-            if (number % potentialFactor == 0) {
+            if (number % potentialFactor == 0L) {
                 // number was evenly divided by the potential factor
                 // this number cannot be prime
                 return false
